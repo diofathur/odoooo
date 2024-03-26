@@ -1,0 +1,13 @@
+version: 1
+task_definition:
+  ecs_network_mode: bridge
+  efs_volumes:
+    - name: etc
+      filesystem_id: fs-04e33072ac73f5cc3  
+      transit_encryption: ENABLED
+    - name: addons
+      filesystem_id: fs-04e33072ac73f5cc3  
+      transit_encryption: ENABLED
+    - name: entrypoint.sh
+      filesystem_id: fs-04e33072ac73f5cc3  
+      transit_encryption: ENABLED

@@ -1,0 +1,43 @@
+version: '2'
+services:
+ # db:
+   # image: postgres:13
+   #  command: ["postgres", "-c", "log_statement=all"]
+   # user: root
+   # environment:
+   #   - POSTGRES_PASSWORD=odoo
+   #   - POSTGRES_USER=odoo
+   #   - POSTGRES_DB=postgres
+  #  restart: always             # run as a service
+   # volumes:
+     #   - ./postgresql:/var/lib/postgresql/data
+
+  odoo14:
+    image: odoo:14
+    user: root
+    #depends_on:
+     # - db
+    ports:
+      - "8069:8069"
+      - "8072:8072" # live chat
+    tty: true
+    #command: odoo
+    #command: odoo -u hrms_org,auth_oidc,bmo_web
+    environment:
+      - HOST=iei-sg-aws-rd-pg-01.cxtcub7e7f5f.ap-southeast-1.rds.amazonaws.com
+      - USER=odoo
+      - PASSWORD=Od007654!
+    volumes:
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./addons:/mnt/extra-addons
+      - ./etc:/etc/odoo
+    restart: always             # run as a service
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/
+        awslogs-region: ap-southeast-1
+        awslogs-stream-prefix: odoo
+    
